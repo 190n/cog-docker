@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# figure out from running cog process where the dbus socket is
+COG_PID=$(pidof cog)
+DBUS_ENV=$(xargs -L1 -0 echo < /proc/$COG_PID/environ | grep DBUS_SESSION_BUS_ADDRESS)
+exec sudo -u cog $DBUS_ENV /usr/bin/cogctl "$@"
