@@ -12,7 +12,7 @@ RUN git clone https://aur.archlinux.org/cog.git
 WORKDIR /home/builder/cog
 RUN gpg --recv-keys 91C559DBE4C9123B
 RUN makepkg -s --noconfirm
-RUN mv cog*.pkg.tar.zst cog.pkg.tar.zst
+RUN sh -c 'mv cog*.pkg.tar.zst cog.pkg.tar.zst'
 
 FROM menci/archlinuxarm:latest
 # install deps
