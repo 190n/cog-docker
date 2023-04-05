@@ -6,7 +6,7 @@ RUN echo '%wheel ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
 RUN useradd -m builder
 RUN usermod -aG wheel builder
 # do not compress cog package
-RUN sed -iE 's/PKGEXT=(.*)$/PKGEXT=.pkg.tar/' /etc/makepkg.conf
+RUN sed -i -E 's/PKGEXT=(.*)$/PKGEXT=.pkg.tar/' /etc/makepkg.conf
 USER builder
 WORKDIR /home/builder
 # build cog from AUR package
