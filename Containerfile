@@ -1,4 +1,5 @@
-FROM archlinux:latest AS build
+# despite the name, this is a multiarch container
+FROM menci/archlinuxarm:latest AS build
 RUN pacman -Syu --noconfirm base-devel git
 # create an unprivileged user to run makepkg
 RUN echo '%wheel ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
@@ -11,13 +12,14 @@ RUN git clone https://aur.archlinux.org/cog.git
 WORKDIR /home/builder/cog
 RUN gpg --recv-keys 91C559DBE4C9123B
 RUN makepkg -s --noconfirm
+RUN mv cog*.pkg.tar.zst cog.pkg.tar.zst
 
-FROM archlinux:latest
+FROM menci/archlinuxarm:latest
 # install deps
 # shared-mime-info = render local .html files as html
 RUN pacman -Syu --noconfirm seatd cage xorg-xwayland sudo shared-mime-info
 # install build cog package
-COPY --from=build /home/builder/cog/cog-0.16.1-1-x86_64.pkg.tar.zst cog.pkg.tar.zst
+COPY --from=build /home/builder/cog/cog.pkg.tar.zst cog.pkg.tar.zst
 RUN pacman -U --noconfirm cog.pkg.tar.zst
 # clean up a little
 RUN rm cog.pkg.tar.zst
