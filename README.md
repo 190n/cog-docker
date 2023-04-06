@@ -12,6 +12,8 @@ $ podman build . --cap-add SYS_CHROOT -t cog
 
 Run it. You can use the `COG_URL` environment variable to control where it opens, and/or add command line flags to set the URL and other things. If you don't want user input enabled in the container you should set `WLR_LIBINPUT_NO_DEVICES=1`. `COG_URL` may of course be a local file by using `file:///`.
 
+You can also set `COG_FLAGS` to provide additional command line flags to the browser.
+
 ```sh
 $ # minimal example
 $ sudo podman run --rm -d -v /dev/dri:/dev/dri --privileged=true -e COG_URL=example.com -e WLR_LIBINPUT_NO_DEVICES=1 --name cog cog
